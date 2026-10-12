@@ -9,6 +9,7 @@ Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi를 이용해 탭�
 - `ll`, `touch`, `mkcd` 등 Unix 스타일 보조 명령
 - Git 단축 명령
 - Yazi 터미널 파일 관리자
+- 고대비 Yazi 테마와 넓은 미리보기 레이아웃
 - zoxide 디렉터리 빠른 이동
 - Windows Terminal 탭 및 Vim 스타일 패널 조작
 - 변경 전 PowerShell 프로필과 Windows Terminal 설정 자동 백업
@@ -83,6 +84,16 @@ Yazi가 현재 디렉터리에서 열립니다. `q`로 종료하면 Yazi에서 �
 z project
 ```
 
+### Yazi 화면만 다시 적용
+
+선택 위치, 폴더, 파일 종류와 팝업의 대비를 높인 테마만 다시 적용할 수 있습니다.
+
+```powershell
+pwsh -NoProfile -File .\scripts\apply-yazi-appearance.ps1
+```
+
+적용 후 실행 중인 Yazi를 종료하고 `y`로 다시 실행합니다. 기존 Yazi 설정은 `.bak`으로 백업됩니다.
+
 ## 단축키만 다시 적용
 
 전체 도구를 다시 설치하지 않고 Windows Terminal 단축키만 갱신하려면 다음을 실행합니다.
@@ -108,6 +119,7 @@ powershell-setting/
 └─ scripts/
    ├─ setup-powershell.ps1
    ├─ setup-terminal-workspace.ps1
+   ├─ apply-yazi-appearance.ps1
    └─ update-terminal-keybindings.ps1
 ```
 
