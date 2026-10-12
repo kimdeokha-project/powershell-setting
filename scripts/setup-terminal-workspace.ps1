@@ -61,13 +61,8 @@ $profileBackup = "$profilePath.$(Get-Date -Format 'yyyyMMdd-HHmmss').bak"
 Copy-Item -LiteralPath $profilePath -Destination $profileBackup -ErrorAction SilentlyContinue
 Set-Content -LiteralPath $profilePath -Value $profileText -Encoding utf8NoBOM
 
-# Show hidden files in the terminal file manager.
-$yaziConfigDir = Join-Path $env:APPDATA 'yazi\config'
-New-Item -ItemType Directory -Path $yaziConfigDir -Force | Out-Null
-Set-Content -LiteralPath (Join-Path $yaziConfigDir 'yazi.toml') -Encoding utf8NoBOM -Value @'
-[mgr]
-show_hidden = true
-'@
+# Apply the tracked high-contrast Yazi configuration.
+& (Join-Path $PSScriptRoot 'apply-yazi-appearance.ps1')
 
 # Windows Terminal: tabs plus convenient Ghostty-like pane controls.
 $settingsPath = Join-Path $env:LOCALAPPDATA 'Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
