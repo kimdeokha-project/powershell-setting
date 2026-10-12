@@ -1,6 +1,6 @@
 # PowerShell & Windows Terminal Setting
 
-Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi를 이용해 탭·분할 패널·터미널 파일 탐색 환경을 구성하는 개인 설정입니다.
+Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi, Neovim을 하나의 흐름으로 사용하는 개인 개발환경 설정입니다.
 
 ## 포함 기능
 
@@ -10,6 +10,8 @@ Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi를 이용해 탭�
 - Git 단축 명령
 - Yazi 터미널 파일 관리자
 - 고대비 Yazi 테마와 넓은 미리보기 레이아웃
+- LazyVim 기반 Neovim 코드 편집 환경
+- Yazi ↔ Neovim 양방향 파일 탐색 연동
 - zoxide 디렉터리 빠른 이동
 - Windows Terminal 탭 및 Vim 스타일 패널 조작
 - 변경 전 PowerShell 프로필과 Windows Terminal 설정 자동 백업
@@ -41,6 +43,14 @@ git clone https://github.com/kimdeokha-project/powershell-setting.git
 cd powershell-setting
 ```
 
+전체 환경을 한 번에 설치합니다.
+
+```powershell
+pwsh -NoProfile -File .\install.ps1
+```
+
+아래 개별 설치 명령은 필요한 구성만 다시 적용할 때 사용합니다.
+
 현재 PowerShell 프로필을 구성합니다.
 
 ```powershell
@@ -54,6 +64,14 @@ pwsh -NoProfile -File .\scripts\setup-terminal-workspace.ps1
 ```
 
 완료되면 Windows Terminal을 완전히 닫았다가 다시 실행합니다.
+
+Neovim과 LazyVim 설정을 설치합니다.
+
+```powershell
+pwsh -NoProfile -File .\scripts\setup-neovim.ps1
+```
+
+터미널을 다시 시작한 뒤 `nvim`을 처음 실행하면 LazyVim 플러그인이 자동 설치됩니다.
 
 ## 단축키
 
@@ -83,6 +101,29 @@ Yazi가 현재 디렉터리에서 열립니다. `q`로 종료하면 Yazi에서 �
 ```powershell
 z project
 ```
+
+## Neovim 통합
+
+PowerShell에서 파일이나 프로젝트를 엽니다.
+
+```powershell
+nvim README.md
+nvim .
+```
+
+Yazi에서 텍스트 또는 코드 파일에 Enter를 누르면 같은 터미널에서 Neovim으로 열립니다. Neovim에서는 다음 키를 사용합니다.
+
+| 기능 | Neovim 단축키 |
+|---|---|
+| 현재 파일 위치에서 Yazi | `<Space>e` |
+| 현재 작업 폴더에서 Yazi | `<Space>E` |
+| 마지막 Yazi 세션 복귀 | `<Space>-` |
+| 창 이동 | `Ctrl+H/J/K/L` |
+| 창 크기 조절 | `Alt+Shift+H/J/K/L` |
+| 저장 | `Ctrl+S` |
+| 버퍼 닫기 | `<Space>q` |
+
+Neovim 안에서 열린 Yazi는 `F1`로 전체 키 도움말을 확인할 수 있습니다. 선택 파일을 세로 분할로 열려면 `Ctrl+V`, 가로 분할은 `Ctrl+X`, 새 탭은 `Ctrl+T`를 사용합니다.
 
 ### Yazi 화면만 다시 적용
 
@@ -116,10 +157,15 @@ pwsh -NoProfile -File .\scripts\update-terminal-keybindings.ps1
 ```text
 powershell-setting/
 ├─ README.md
+├─ install.ps1
+├─ config/
+│  ├─ nvim/
+│  └─ yazi/
 └─ scripts/
    ├─ setup-powershell.ps1
    ├─ setup-terminal-workspace.ps1
    ├─ apply-yazi-appearance.ps1
+   ├─ setup-neovim.ps1
    └─ update-terminal-keybindings.ps1
 ```
 
