@@ -12,3 +12,14 @@ wrap = "yes"
 tab_size = 4
 max_width = 1200
 max_height = 1600
+
+[opener]
+edit = [
+    { run = 'nvim "$@"', block = true, for = "windows" },
+]
+
+[open]
+prepend_rules = [
+    { mime = "text/*", use = "edit" },
+    { url = "*.{c,cc,cpp,cs,css,go,h,hpp,html,ini,java,js,json,jsx,lua,md,ps1,py,rs,sh,sql,toml,ts,tsx,xml,yaml,yml}", use = "edit" },
+]
