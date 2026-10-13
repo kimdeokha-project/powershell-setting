@@ -12,3 +12,6 @@ opt.termguicolors = true
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
+-- Use Pyright for Python completion, diagnostics, navigation, and type checking.
+vim.g.lazyvim_python_lsp = "pyright"
