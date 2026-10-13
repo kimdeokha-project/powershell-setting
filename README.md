@@ -13,6 +13,7 @@ Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi, Neovim을 하나
 - 고대비 Yazi 테마와 넓은 미리보기 레이아웃
 - LazyVim 기반 Neovim 코드 편집 환경
 - Yazi ↔ Neovim 양방향 파일 탐색 연동
+- Pyright와 다중 언어 LSP, Treesitter 문법 강조, Tab 자동완성
 - zoxide 디렉터리 빠른 이동
 - Windows Terminal 탭 및 Vim 스타일 패널 조작
 - 변경 전 PowerShell 프로필과 Windows Terminal 설정 자동 백업
@@ -153,6 +154,29 @@ Yazi에서 텍스트 또는 코드 파일에 Enter를 누르면 같은 터미널
 | 버퍼 닫기 | `<Space>q` |
 
 Neovim 안에서 열린 Yazi는 `F1`로 전체 키 도움말을 확인할 수 있습니다. 선택 파일을 세로 분할로 열려면 `Ctrl+V`, 가로 분할은 `Ctrl+X`, 새 탭은 `Ctrl+T`를 사용합니다.
+
+### 지원 언어와 편집 기능
+
+| 언어/형식 | 기본 지원 |
+|---|---|
+| Python | Pyright, Ruff 연동, 타입 진단, 자동완성 |
+| C/C++ | clangd, 헤더 이동, 진단, 자동완성 |
+| C#/.NET | Roslyn 기반 기능, 프로젝트 탐색, 진단 |
+| JavaScript/TypeScript | TypeScript 언어 서버, 자동 import, 진단 |
+| Lua | lua-language-server 및 Neovim API 완성 |
+| PowerShell | PowerShell Editor Services |
+| JSON/YAML/TOML | 스키마 기반 완성 및 검증 |
+| Markdown | 문법 강조와 문서 편집 지원 |
+
+입력 중 자동완성 메뉴가 나타나며 `Tab`으로 선택 항목을 확정하고 `Shift+Tab`으로 이전 항목을 선택합니다. 함수 설명과 매개변수 도움말도 자동 표시됩니다. Treesitter와 Tokyo Night 테마가 키워드, 문자열, 함수, 타입, 주석 등을 색상으로 구분합니다.
+
+Neovim 안에서 설치 및 연결 상태를 확인할 수 있습니다.
+
+```vim
+:Mason
+:LspInfo
+:checkhealth
+```
 
 ### Yazi 화면만 다시 적용
 
