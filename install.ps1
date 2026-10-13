@@ -3,6 +3,7 @@ $ErrorActionPreference = 'Stop'
 $scripts = Join-Path $PSScriptRoot 'scripts'
 
 & (Join-Path $scripts 'setup-powershell.ps1')
+& (Join-Path $scripts 'setup-git-tree.ps1')
 & (Join-Path $scripts 'setup-terminal-workspace.ps1')
 & (Join-Path $scripts 'setup-neovim.ps1')
 
