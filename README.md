@@ -8,6 +8,7 @@ Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi, Neovim을 하나
 - PSReadLine 자동완성 및 히스토리 검색
 - `ll`, `touch`, `mkcd` 등 Unix 스타일 보조 명령
 - Git 단축 명령
+- Git 상태가 표시되는 디렉터리 트리와 커밋 그래프
 - Yazi 터미널 파일 관리자
 - 고대비 Yazi 테마와 넓은 미리보기 레이아웃
 - LazyVim 기반 Neovim 코드 편집 환경
@@ -102,6 +103,34 @@ Yazi가 현재 디렉터리에서 열립니다. `q`로 종료하면 Yazi에서 �
 z project
 ```
 
+## Git 트리 보기
+
+현재 폴더의 파일 구조와 각 파일의 Git 상태를 함께 표시합니다. 기본 깊이는 3단계입니다.
+
+```powershell
+tree
+tree . 2
+tree src 5
+```
+
+브랜치와 커밋 이력을 그래프로 표시합니다.
+
+```powershell
+gtree
+```
+
+변경된 파일만 간단히 확인합니다.
+
+```powershell
+gfiles
+```
+
+이 기능만 설치하거나 다시 적용하려면 다음을 실행합니다.
+
+```powershell
+pwsh -NoProfile -File .\scripts\setup-git-tree.ps1
+```
+
 ## Neovim 통합
 
 PowerShell에서 파일이나 프로젝트를 엽니다.
@@ -163,6 +192,7 @@ powershell-setting/
 │  └─ yazi/
 └─ scripts/
    ├─ setup-powershell.ps1
+   ├─ setup-git-tree.ps1
    ├─ setup-terminal-workspace.ps1
    ├─ apply-yazi-appearance.ps1
    ├─ setup-neovim.ps1
