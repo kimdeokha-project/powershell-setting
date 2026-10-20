@@ -1,6 +1,6 @@
 $ErrorActionPreference = 'Stop'
 
-$profilePath = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'PowerShell\Microsoft.PowerShell_profile.ps1'
+$profilePath = $PROFILE.CurrentUserCurrentHost
 $profileDirectory = Split-Path -Parent $profilePath
 New-Item -ItemType Directory -Path $profileDirectory -Force | Out-Null
 
@@ -15,7 +15,7 @@ $OutputEncoding = [Console]::OutputEncoding = [Text.UTF8Encoding]::new()
 
 # Prompt
 if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
-    oh-my-posh init pwsh --config 'sonicboom_dark' | Invoke-Expression
+    try { oh-my-posh init pwsh --config 'sonicboom_dark' | Invoke-Expression } catch { Write-Warning "Oh My Posh setup failed: $_" }
 }
 
 # Line editing and history suggestions
