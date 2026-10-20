@@ -29,12 +29,67 @@ Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi, Neovim을 하나
 PowerShell 7과 Windows Terminal이 없다면 먼저 설치합니다.
 
 ```powershell
-winget install --id Microsoft.PowerShell --exact
-winget install --id Microsoft.WindowsTerminal --exact
-winget install --id JanDeDobbeleer.OhMyPosh --exact
+winget install --id Microsoft.PowerShell --exact --source winget
+winget install --id Microsoft.WindowsTerminal --exact --source winget
+winget install --id JanDeDobbeleer.OhMyPosh --exact --source winget
 ```
 
 설치 후 Windows Terminal의 PowerShell 7 탭에서 나머지 명령을 실행합니다.
+
+## 설치 문제 해결: 도구가 없거나 프롬프트가 기본 모양일 때
+
+**PowerShell 7 설치와 환경설정 완료는 별개입니다.** `$PROFILE` 파일이 존재하더라도 eza/Yazi/Neovim 등의 도구가 설치됐다는 뜻은 아닙니다. 특히 `install.ps1`의 도구 설치 단계에서 winget이 실패하면 뒤 단계는 실행되지 않을 수 있습니다.
+
+### 1. 현재 환경 확인
+
+PowerShell 7 탭에서 실행합니다.
+
+```powershell
+$PSVersionTable.PSVersion
+$PROFILE
+Test-Path $PROFILE
+'git','winget','oh-my-posh','eza','yazi','zoxide','nvim','lazygit','fd','rg' | ForEach-Object {
+    $cmd = Get-Command $_ -ErrorAction SilentlyContinue
+    if ($cmd) { "[OK] $_" } else { "[MISSING] $_" }
+}
+'gst','gtree','gfiles','y','z','reload' | ForEach-Object {
+    $cmd = Get-Command $_ -ErrorAction SilentlyContinue
+    if ($cmd) { "[OK] $_" } else { "[MISSING] $_" }
+}
+```
+
+### 2. winget의 msstore 인증서 오류 우회
+
+`0x8a15005e` 또는 `원본을 검색하는 동안 실패함: msstore`가 표시되면 패키지 ID를 지정할 때 **`--source winget`**을 사용해 Store 원본 검색을 피합니다. 네트워크 인증서 검증을 비활성화하지 마세요.
+
+```powershell
+winget install --id JanDeDobbeleer.OhMyPosh --exact --source winget
+winget install --id eza-community.eza --exact --source winget
+winget install --id sxyazi.yazi --exact --source winget
+winget install --id sharkdp.fd --exact --source winget
+winget install --id BurntSushi.ripgrep.MSVC --exact --source winget
+winget install --id junegunn.fzf --exact --source winget
+winget install --id ajeetdsouza.zoxide --exact --source winget
+winget install --id 7zip.7zip --exact --source winget
+winget install --id jqlang.jq --exact --source winget
+winget install --id Neovim.Neovim --exact --source winget
+winget install --id JesseDuffield.lazygit --exact --source winget
+winget install --id zig.zig --exact --source winget
+```
+
+> **주의:** 현재 `scripts/setup-git-tree.ps1`, `scripts/setup-terminal-workspace.ps1`, `scripts/setup-neovim.ps1` 내부의 winget 호출에는 아직 `--source winget` 옵션이 없습니다. 위 수동 설치가 완료돼도 전체 설치 스크립트의 원본 검색 오류가 재발할 수 있습니다. 안정적인 자동 설치를 위해서는 **스크립트 자체도 수정**해야 합니다.
+
+### 3. 설치 상태와 프로필 적용 점검
+
+새 PowerShell 7 터미널을 연 뒤 도구를 다시 점검합니다. `$PROFILE`이 실제로 가리키는 파일을 확인하고, 기존 프로필을 덮어쓰기 전에 백업 상태를 검토하세요.
+
+```powershell
+Test-Path $PROFILE
+Get-Command oh-my-posh,eza,yazi,zoxide,nvim -ErrorAction SilentlyContinue
+Get-Command gst,gtree,gfiles,y,z -ErrorAction SilentlyContinue
+```
+
+PowerShell의 현재 호스트 프로필과 스크립트의 대상 경로가 다른 경우 사용자 설정이 반영되지 않을 수 있습니다. Windows Terminal 설정 경로는 설치 방식에 따라 달라질 수 있으므로 `settings.json` 존재 여부도 확인하세요.
 
 ## 설치
 
