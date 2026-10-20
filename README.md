@@ -251,6 +251,27 @@ pwsh -NoProfile -File .\scripts\apply-yazi-appearance.ps1
 pwsh -NoProfile -File .\scripts\update-terminal-keybindings.ps1
 ```
 
+## Neovim 첫 실행 오류 해결
+
+- `williamboman/mason.nvim`은 `mason-org/mason.nvim`으로 이름이 변경되었습니다. 이 저장소는 `config/nvim/lua/plugins/mason.lua`에서 새 이름을 지정합니다.
+- 최신 nvim-treesitter `main`은 C 컴파일러가 필요합니다. `setup-neovim.ps1`은 gcc/clang/cl 명령이 없을 때 WinLibs 설치를 시도합니다.
+- 설치 직후 PATH가 반영되지 않았으면 Windows Terminal을 재시작한 뒤 `gcc --version`, `nvim` 및 `:checkhealth nvim-treesitter`로 확인합니다.
+- 이미 설치된 오래된 Mason 플러그인이 경고를 내면 Neovim에서 `:Lazy sync`를 실행하세요. 동기화 후에도 계속되면 설치된 플러그인 명세/lockfile을 확인하세요.
+
+## Codex CLI 입력 문제 해결 (Windows)
+
+Codex 화면에서 입력이 안 되거나 붙여넣기가 실패하는 현상은 PowerShell 프로필과 무관한 Codex/터미널 TUI 문제일 수도 있습니다. 먼저 아래처럼 PowerShell 7의 프로필을 제외하고 재현 여부를 확인합니다.
+
+```powershell
+codex --version
+pwsh -NoProfile
+codex
+```
+
+- 직접 타이핑은 되지만 붙여넣기만 실패하면 `Ctrl+Shift+V` 또는 우클릭 붙여넣기를 시험합니다. 일부 Codex CLI 버전은 `Ctrl+V`를 이미지 붙여넣기로 해석합니다.
+- 타이핑한 글자만 보이지 않으면 Windows Terminal 창 크기를 변경하여 TUI 다시 그리기 문제인지 확인합니다.
+- `pwsh -NoProfile`에서도 동일하면 PowerShell 프로필을 무작정 지우지 말고 Codex 버전과 터미널 환경을 점검합니다. 정상 작동하는 버전이 있는 경우 변경 이력을 검토하세요.
+
 ## 백업과 복구
 
 스크립트는 파일을 변경하기 전에 같은 디렉터리에 타임스탬프가 포함된 `.bak` 파일을 만듭니다.
