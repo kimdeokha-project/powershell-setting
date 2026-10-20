@@ -1,10 +1,6 @@
 $ErrorActionPreference = 'Stop'
-
-Write-Host 'Installing eza tree viewer ...' -ForegroundColor Cyan
-winget install --id eza-community.eza --exact --accept-package-agreements --accept-source-agreements --silent
-if ($LASTEXITCODE -notin 0, -1978335189) {
-    throw "winget failed for eza-community.eza (exit $LASTEXITCODE)"
-}
+. (Join-Path $PSScriptRoot 'install-winget-package.ps1')
+Install-WingetPackage 'eza-community.eza'
 
 $profilePath = $PROFILE.CurrentUserCurrentHost
 $profileDirectory = Split-Path -Parent $profilePath
