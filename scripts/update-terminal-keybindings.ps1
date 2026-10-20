@@ -52,11 +52,16 @@ $keybindings = @(
     [pscustomobject]@{ id='User.ClosePane'; keys='ctrl+w' }
 )
 
-$reservedKeys = @($keybindings.keys)
-$settings.actions = @($settings.actions | Where-Object { $_.id -notin $ids }) + $actions
-$settings.keybindings = @($settings.keybindings | Where-Object {
-    $_.id -notin $ids -and $_.keys -notin $reservedKeys
+# Existing Windows Terminal configurations may omit actions or keybindings.
+$oldActions = if ($settings.PSObject.Properties['actions']) { @($settings.actions) } else { @() }
+$oldKeys = if ($settings.PSObject.Properties['keybindings']) { @($settings.keybindings) } else { @() }
+$reservedKeys = @($keybindings | ForEach-Object { $_.keys })
+$mergedActions = @($oldActions | Where-Object { $_ -and $_.id -notin $ids }) + $actions
+$mergedKeys = @($oldKeys | Where-Object {
+    $_ -and $_.id -notin $ids -and $_.keys -notin $reservedKeys
 }) + $keybindings
+$settings | Add-Member -NotePropertyName actions -NotePropertyValue $mergedActions -Force
+$settings | Add-Member -NotePropertyName keybindings -NotePropertyValue $mergedKeys -Force
 
 $settings | ConvertTo-Json -Depth 20 | Set-Content -LiteralPath $settingsPath -Encoding utf8NoBOM
 Write-Host 'Keybindings updated. Close and reopen Windows Terminal.' -ForegroundColor Green
