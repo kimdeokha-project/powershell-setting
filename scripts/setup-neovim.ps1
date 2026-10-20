@@ -4,6 +4,11 @@ $ErrorActionPreference = 'Stop'
 Install-WingetPackage 'Neovim.Neovim'
 Install-WingetPackage 'JesseDuffield.lazygit'
 Install-WingetPackage 'zig.zig'
+# nvim-treesitter main requires a working C compiler.
+if (-not (Get-Command gcc,clang,cl -ErrorAction SilentlyContinue)) {
+    Install-WingetPackage 'BrechtSanders.WinLibs.POSIX.UCRT'
+    Write-Warning 'Restart terminal to refresh PATH, then run :checkhealth nvim-treesitter.'
+}
 
 $source = Join-Path (Split-Path -Parent $PSScriptRoot) 'config\nvim'
 $target = Join-Path $env:LOCALAPPDATA 'nvim'
