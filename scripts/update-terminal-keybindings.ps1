@@ -1,9 +1,12 @@
 $ErrorActionPreference = 'Stop'
 
-$settingsPath = Join-Path $env:LOCALAPPDATA 'Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'
-if (-not (Test-Path -LiteralPath $settingsPath)) {
-    throw "Windows Terminal settings not found: $settingsPath"
-}
+$candidates = @(
+    (Join-Path $env:LOCALAPPDATA 'Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json'),
+    (Join-Path $env:LOCALAPPDATA 'Packages\Microsoft.WindowsTerminalPreview_8wekyb3d8bbwe\LocalState\settings.json'),
+    (Join-Path $env:LOCALAPPDATA 'Microsoft\Windows Terminal\settings.json')
+)
+$settingsPath = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+if (-not $settingsPath) { throw "Windows Terminal settings.json not found. Start Windows Terminal once, then retry." }
 
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 Copy-Item -LiteralPath $settingsPath -Destination "$settingsPath.$stamp.bak"
