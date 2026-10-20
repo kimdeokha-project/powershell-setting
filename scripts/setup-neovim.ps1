@@ -1,12 +1,5 @@
 $ErrorActionPreference = 'Stop'
-
-function Install-WingetPackage([string]$Id) {
-    Write-Host "Installing $Id ..." -ForegroundColor Cyan
-    winget install --id $Id --exact --accept-package-agreements --accept-source-agreements --silent
-    if ($LASTEXITCODE -notin 0, -1978335189) {
-        throw "winget failed for $Id (exit $LASTEXITCODE)"
-    }
-}
+. (Join-Path $PSScriptRoot 'install-winget-package.ps1')
 
 Install-WingetPackage 'Neovim.Neovim'
 Install-WingetPackage 'JesseDuffield.lazygit'
