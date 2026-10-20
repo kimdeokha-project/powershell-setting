@@ -77,7 +77,7 @@ winget install --id JesseDuffield.lazygit --exact --source winget
 winget install --id zig.zig --exact --source winget
 ```
 
-> **주의:** 현재 `scripts/setup-git-tree.ps1`, `scripts/setup-terminal-workspace.ps1`, `scripts/setup-neovim.ps1` 내부의 winget 호출에는 아직 `--source winget` 옵션이 없습니다. 위 수동 설치가 완료돼도 전체 설치 스크립트의 원본 검색 오류가 재발할 수 있습니다. 안정적인 자동 설치를 위해서는 **스크립트 자체도 수정**해야 합니다.
+스크립트는 이제 공통 `scripts/install-winget-package.ps1` 함수를 사용하며, `--source winget`을 지정하고 이미 설치된 패키지를 확인합니다.
 
 ### 3. 설치 상태와 프로필 적용 점검
 
@@ -100,7 +100,7 @@ git clone https://github.com/kimdeokha-project/powershell-setting.git
 cd powershell-setting
 ```
 
-전체 환경을 한 번에 설치합니다.
+전체 환경을 한 번에 설치합니다. PowerShell 7에서 실행해야 하며, 기존 프로필과 터미널 설정은 백업됩니다.
 
 ```powershell
 pwsh -NoProfile -File .\install.ps1
