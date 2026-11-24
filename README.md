@@ -29,6 +29,7 @@ Windows에서 PowerShell 7, Windows Terminal, Oh My Posh, Yazi, Neovim을 하나
 PowerShell 7과 Windows Terminal이 없다면 먼저 설치합니다.
 
 ```powershell
+winget source update
 winget install --id Microsoft.PowerShell --exact --source winget
 winget install --id Microsoft.WindowsTerminal --exact --source winget
 winget install --id JanDeDobbeleer.OhMyPosh --exact --source winget
